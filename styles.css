@@ -122,12 +122,24 @@
     overflow: hidden;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
-
-.item img {
+.item-image-div{
     width: 100%;
-    border-bottom: 1px solid #ddd;
+    overflow: hidden;
+    margin-bottom: -1px;
+} 
+.item img {
+    max-width: 100%; /* Image will not exceed the width of its container */
+    height: auto; /* Maintain aspect ratio */
+    transition: transform 0.3s ease-in-out;
+    object-fit: cover; /* Adjust object-fit based on your design */
+    display: block; /* Ensure the image behaves as a block element */
+    margin: 0;
+    padding: 0;
 }
-
+.item img:hover{
+    transform:scale(1.1);
+    cursor: pointer;
+}
 .item-title,
 .item-price {
     padding: 10px;
@@ -164,7 +176,7 @@
     }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
 
 
     .container {

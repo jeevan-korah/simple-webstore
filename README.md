@@ -1,6 +1,7 @@
 # Shopping Cart App
 
 A simple e-commerce web application that allows users to browse products, add items to the cart, manage cart quantities, and proceed to checkout. Built using HTML, CSS, and JavaScript, this project demonstrates local storage management and dynamic UI updates for a seamless shopping experience.
+https://jeevan-korah.github.io/simple-webstore/
 
 ## Features
 

@@ -29,6 +29,8 @@ function ready(){
             var input = quantityInputs[i]
             input.addEventListener('change',quantityChanged)
         }
+
+        document.getElementById('purchasebutton').addEventListener('click',purchaseClicked)
     
      
     
@@ -44,6 +46,52 @@ function ready(){
  
     
 }
+
+function purchaseBG(){
+    let cartItemsElement= document.getElementsByClassName('cart-items')[0]
+    let hasChildElements = Array.from(cartItemsElement.children).length>0
+    let address= document.getElementById('address-input').value
+    let purchaseButton =  document.getElementById('purchasebutton')
+    if(hasChildElements && address!=''){
+        purchaseButton.style.backgroundColor = '#7cdd95';
+        console.log('color changed')
+    }
+    else{
+        purchaseButton.style.backgroundColor = '#e8e8e8'
+    }
+}
+
+function purchaseClicked(){
+    let cartItemsElement= document.getElementsByClassName('cart-items')[0]
+    let hasChildElements = Array.from(cartItemsElement.childNodes).some(node => node.nodeType === 1);
+    if(hasChildElements){
+        let address= document.getElementById('address-input').value
+        console.log(address)
+        if(address.trim()!=''){
+            while(cartItemsElement.hasChildNodes()){
+                cartItemsElement.removeChild(cartItemsElement.firstChild)
+            }
+            let cartItems=JSON.parse(localStorage.getItem('cartItems'))||[]
+            cartItems=[]  // Clear all items in the local storage
+            localStorage.setItem('cartItems',JSON.stringify(cartItems))
+            alert('Thank you for your purchase.')
+            updateCartTotal()
+            purchaseBG()
+            document.getElementById('address-input').value = ''
+            editAddress()
+            
+        }
+        else{
+            alert("Please enter an address")
+        }
+       
+    return
+    }
+    else{
+        alert("Cart is empty")
+    }
+}
+ 
 
 function addToCartClicked(event){
     let addCart=event.target
@@ -101,7 +149,7 @@ function getCartItemsFromLocalStorage(){
 
 function quantityChanged(event){
     let input = event.target
-    console.log(input)
+    
     if (isNaN(input.value) || input.value<=0){
         input.value=1
     }
@@ -109,9 +157,6 @@ function quantityChanged(event){
         input.value=20
         alert('Maximum quantity should be less than 20')
     }
-    
-    
-
     updateQuantityInLocalStorage(input)
     updateCartTotal()
 }
@@ -141,6 +186,7 @@ function enterAddress(){
         addressDisplay.classList.remove('hidden')
 
         document.getElementById('address-edit').classList.remove('hidden')
+        purchaseBG()
         }
     else{
         alert('Please enter an address')
@@ -189,6 +235,7 @@ function removeCartItem(event){
     buttonClicked.parentElement.remove()
     removeCartItemFromLocalStorage(buttonClicked)
     updateCartTotal()
+    
 }
 
 function removeCartItemFromLocalStorage(buttonClicked){
@@ -203,6 +250,7 @@ function removeCartItemFromLocalStorage(buttonClicked){
         }
     }
     localStorage.setItem('cartItems',JSON.stringify(cartItems))
+    purchaseBG()
 }
 
 
